@@ -6,14 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Features\MemberTypes\Create.cs" />
-    <Compile Remove="Features\MemberTypes\Header.cs" />
-    <Compile Remove="Features\MemberTypes\Index.cs" />
-    <Compile Remove="Features\MemberTypes\MapProfile.cs" />
-    <Compile Remove="Features\MemberTypes\Update.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="FluentValidation" Version="8.0.100" />

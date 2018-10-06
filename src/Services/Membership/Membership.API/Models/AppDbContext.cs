@@ -12,7 +12,7 @@
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<MemberType> MemberTypes { get; set; }
 
-        public virtual DbSet<MemberTypeMember> MemberTypeMembers { get; set; }
+        public virtual DbSet<MemberTypeAssignment> MemberTypeMembers { get; set; }
         public virtual DbSet<TeamMember> TeamMembers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -28,8 +28,8 @@
             modelBuilder.Entity<MemberType>()
                 .HasKey(t => t.MemberTypeId);
 
-            modelBuilder.Entity<MemberTypeMember>()
-                .HasKey(t => t.MemberTypeMemberId);
+            modelBuilder.Entity<MemberTypeAssignment>()
+                .HasKey(t => t.MemberTypeAssignmentId);
 
             modelBuilder.Entity<TeamMember>()
                 .HasKey(t => t.TeamMemberId);
