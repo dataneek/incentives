@@ -2,7 +2,8 @@
 {
     using AutoMapper;
     using FluentValidation.AspNetCore;
-    using Incentives.Services.Accounting.API.Models;
+    using Incentives.Services.Accounting.API.Commands;
+    using Incentives.Services.Accounting.API.Queries;
     using MediatR;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -34,9 +35,17 @@
                     t.RegisterValidatorsFromAssemblyContaining<Startup>();
                 });
 
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseInMemoryDatabase("app_acounting"),ServiceLifetime.Singleton);
-                //options.UseSqlServer(Configuration.GetConnectionString("AppDbContext")));
+            //options.UseSqlServer(Configuration.GetConnectionString("AppDbContext")));
+
+            services.AddDbContext<DefaultDbContext>(options =>
+                options.UseInMemoryDatabase("app_acounting_readonly"), ServiceLifetime.Singleton);
+
+
+            services.AddTransient<IEventStore, InMemoryEventStore>();
+            services.AddSingleton<IEventStreamService, InMemoryEventStreamService>();
+            services.AddScoped<ISession, Session>();
+            services.AddScoped<IRepository, Repository>();
+            services.AddScoped<IReadonlyDatabase, ReadonlyDatabase>();
 
             services.AddAutoMapper(typeof(Startup));
             services.AddMediatR(typeof(Startup));
@@ -48,7 +57,7 @@
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
             }
             else
             {
