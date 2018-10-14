@@ -1,8 +1,12 @@
 ﻿namespace Incentives.Services.Membership.API
 {
     using AutoMapper;
+    using CQRSlite.Domain;
+    using CQRSlite.Events;
     using FluentValidation.AspNetCore;
+    using Incentives.Services.Membership.API.Commands;
     using Incentives.Services.Membership.API.Models;
+    using Incentives.Services.Membership.API.Queries;
     using MediatR;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -34,9 +38,15 @@
                     t.RegisterValidatorsFromAssemblyContaining<Startup>();
                 });
 
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseInMemoryDatabase("app_membership"), ServiceLifetime.Singleton);
-            //options.UseSqlServer(Configuration.GetConnectionString("AppDbContext")));
+            services.AddDbContext<DefaultDbContext>(options =>
+                options.UseInMemoryDatabase("app_membership_readonly"), ServiceLifetime.Singleton);
+
+
+            services.AddTransient<IEventStore, InMemoryEventStore>();
+            services.AddSingleton<IEventStreamService, InMemoryEventStreamService>();
+            services.AddScoped<ISession, Session>();
+            services.AddScoped<IRepository, Repository>();
+            services.AddScoped<IReadonlyDatabase, ReadonlyDatabase>();
 
             services.AddAutoMapper(typeof(Startup));
             services.AddMediatR(typeof(Startup));
@@ -48,7 +58,7 @@
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                
             }
             else
             {

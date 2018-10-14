@@ -3,23 +3,23 @@
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using MediatR;
-    using Incentives.Services.Membership.API.Commands.Features.MemberTypes;
-    using Incentives.Services.Membership.API.Queries.Features.MemberTypes;
+    using Incentives.Services.Membership.API.Commands.Features.TeamAssignments;
+    using Incentives.Services.Membership.API.Queries.Features.TeamAssignments;
     using System;
 
     [ApiController]
-    [Route("api/v1/membership/member-types")]
-    public class MemberTypesController : ControllerBase
+    [Route("api/v1/membership/team-assignments")]
+    public class TeamsAssignmentsController : ControllerBase
     {
         private readonly IMediator mediator;
 
-        public MemberTypesController(IMediator mediator)
+        public TeamsAssignmentsController(IMediator mediator)
         {
             this.mediator = mediator;
         }
 
 
-        [HttpGet, Route("/page")]
+        [HttpGet, Route("page")]
         public async Task<IActionResult> Get(int pageNumber, int itemCountPerPage)
         {
             var result =
@@ -34,13 +34,13 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(Guid? memberTypeId)
+        public async Task<IActionResult> Get(Guid? teamAssignmentId)
         {
             var result =
                 await this.mediator.Send(
                     new About.Request
                     {
-                        MemberTypeId = memberTypeId
+                        TeamAssignmentId = teamAssignmentId
                     });
 
             return Ok(result);
@@ -49,14 +49,14 @@
         [HttpPost]
         public async Task<IActionResult> Post(Create.Request request)
         {
-            var result =
+            var result = 
                 await this.mediator.Send(request);
 
             return Ok(result);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Put(Update.Request request)
+        [HttpPut, Route("cancel")]
+        public async Task<IActionResult> Post(Cancel.Request request)
         {
             var result =
                 await this.mediator.Send(request);

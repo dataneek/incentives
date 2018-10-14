@@ -3,23 +3,23 @@
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using MediatR;
-    using Incentives.Services.Membership.API.Commands.Features.MemberTypes;
-    using Incentives.Services.Membership.API.Queries.Features.MemberTypes;
+    using Incentives.Services.Membership.API.Commands.Features.Members;
+    using Incentives.Services.Membership.API.Queries.Features.Members;
     using System;
 
     [ApiController]
-    [Route("api/v1/membership/member-types")]
-    public class MemberTypesController : ControllerBase
+    [Route("api/v1/membership/members")]
+    public class MembersController : ControllerBase
     {
         private readonly IMediator mediator;
 
-        public MemberTypesController(IMediator mediator)
+        public MembersController(IMediator mediator)
         {
             this.mediator = mediator;
         }
 
 
-        [HttpGet, Route("/page")]
+        [HttpGet, Route("page")]
         public async Task<IActionResult> Get(int pageNumber, int itemCountPerPage)
         {
             var result =
@@ -34,13 +34,13 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(Guid? memberTypeId)
+        public async Task<IActionResult> Get(Guid? memberId)
         {
             var result =
                 await this.mediator.Send(
                     new About.Request
                     {
-                        MemberTypeId = memberTypeId
+                        MemberId = memberId
                     });
 
             return Ok(result);
