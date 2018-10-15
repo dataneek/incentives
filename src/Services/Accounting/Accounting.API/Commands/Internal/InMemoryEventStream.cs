@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using CQRSlite.Events;
 
     public class InMemoryEventStream : List<IEvent>, IEventStream
     {

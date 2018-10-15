@@ -3,6 +3,7 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using CQRSlite.Domain;
     using FluentValidation;
     using MediatR;
     using Models;
@@ -31,14 +32,14 @@
             protected override async Task Handle(Request request, CancellationToken cancellationToken)
             {
                 var model = await 
-                    session.GetAsync<CostCode>(
+                    session.Get<CostCode>(
                         request.CodeCodeId.Value, 
                         request.ExpectedVersionNumber, 
                         cancellationToken);
 
                 model.Update(request.CommonName, request.UniqueIdentifier, request.IsActive.Value);
 
-                await session.CommitAsync(cancellationToken);
+                await session.Commit(cancellationToken);
             }
         }
 

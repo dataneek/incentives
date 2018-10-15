@@ -1,7 +1,9 @@
 namespace Incentives.Services.Accounting.API.Commands.Models
 {
-    using Incentives.Services.Accounting.API.Commands.Events;
     using System;
+    using Incentives.Services.Accounting.API.Commands.Events;
+    using CQRSlite.Domain;
+
 
     public class CostCode : AggregateRoot
     {
@@ -10,7 +12,7 @@ namespace Incentives.Services.Accounting.API.Commands.Models
         public CostCode(Guid id, string commonName, string uniqueIdentifier)
         {
             this.Id = id;
-            RaiseEvent(new CostCodeCreated(id, commonName, uniqueIdentifier));
+            ApplyChange(new CostCodeCreated(id, commonName, uniqueIdentifier));
         }
 
 
@@ -21,7 +23,7 @@ namespace Incentives.Services.Accounting.API.Commands.Models
 
         public void Update(string commonName, string uniqueIdentifier, bool isActive)
         {
-            RaiseEvent(new CostCodeUpdated(this.Id, commonName, uniqueIdentifier, IsActive));
+            ApplyChange(new CostCodeUpdated(this.Id, commonName, uniqueIdentifier, IsActive));
         }
 
         private void Apply(CostCodeCreated e)

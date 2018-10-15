@@ -1,6 +1,8 @@
 ﻿namespace Incentives.Services.Accounting.API
 {
     using AutoMapper;
+    using CQRSlite.Domain;
+    using CQRSlite.Events;
     using FluentValidation.AspNetCore;
     using Incentives.Services.Accounting.API.Commands;
     using Incentives.Services.Accounting.API.Queries;

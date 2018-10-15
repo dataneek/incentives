@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using CQRSlite.Events;
     using MediatR;
 
     public class InMemoryEventStore : IEventStore
@@ -22,7 +23,7 @@
         {
             var events = eventStreamService.GetOrCreateStream(aggregateId);
 
-            return Task.FromResult(events?.Where(x => x.VersionNumber > fromVersion) ?? new List<IEvent>());
+            return Task.FromResult(events?.Where(x => x.Version > fromVersion) ?? new List<IEvent>());
         }
 
         async Task IEventStore.Save(IEnumerable<IEvent> events, CancellationToken cancellationToken)
@@ -32,7 +33,10 @@
                 var eventStream = eventStreamService.GetOrCreateStream(e.Id);
                 eventStream.Add(e);
 
-                await mediator.Publish(e, cancellationToken);
+                var notification = e as INotification;
+
+                if (notification != null)
+                    await mediator.Publish(notification, cancellationToken);
             }
         }
     }
