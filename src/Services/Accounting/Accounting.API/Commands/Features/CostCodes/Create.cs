@@ -3,6 +3,7 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using CQRSlite.Domain;
     using FluentValidation;
     using MediatR;
     using Models;
@@ -31,8 +32,8 @@
                 var aggregate = 
                     new CostCode(request.CodeCodeId.Value, request.CommonName, request.UniqueIdentifier);
 
-                await session.AddAsync(aggregate);
-                await session.CommitAsync();
+                await session.Add(aggregate);
+                await session.Commit();
             }
         }
 

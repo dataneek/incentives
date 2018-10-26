@@ -3,6 +3,7 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using CQRSlite.Domain;
     using FluentValidation;
     using Incentives.Services.Accounting.API.Commands.Models;
     using MediatR;
@@ -32,14 +33,14 @@
             protected override async Task Handle(Request request, CancellationToken cancellationToken)
             {
                 var model = await
-                    session.GetAsync<LedgerAccount>(
+                    session.Get<LedgerAccount>(
                         request.LedgerAccountId.Value, 
                         request.ExpectedVersionNumber, 
                         cancellationToken);
 
                 model.Update(request.CommonName, request.AccountNumber, request.IsActive.Value);
 
-                await session.CommitAsync(cancellationToken);
+                await session.Commit(cancellationToken);
             }
         }
 

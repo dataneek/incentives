@@ -1,7 +1,8 @@
 ﻿namespace Incentives.Services.Accounting.API.Commands.Models
 {
-    using Incentives.Services.Accounting.API.Commands.Events;
     using System;
+    using CQRSlite.Domain;
+    using Incentives.Services.Accounting.API.Commands.Events;
 
     public class LedgerAccount : AggregateRoot
     {
@@ -10,7 +11,7 @@
         public LedgerAccount(Guid id, string commonName, string accountNumber)
         {
             this.Id = id;
-            RaiseEvent(new LedgerAccountCreated(id, commonName, accountNumber));
+            ApplyChange(new LedgerAccountCreated(id, commonName, accountNumber));
         }
 
 
@@ -27,7 +28,7 @@
             if (string.IsNullOrWhiteSpace(accountNumber))
                 throw new ArgumentNullException(nameof(accountNumber));
 
-            RaiseEvent(new LedgerAccountUpdated(this.Id, commonName, accountNumber, isActive));
+            ApplyChange(new LedgerAccountUpdated(this.Id, commonName, accountNumber, isActive));
         }
 
         private void Apply(LedgerAccountCreated e)

@@ -3,6 +3,7 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using CQRSlite.Domain;
     using FluentValidation;
     using Incentives.Services.Accounting.API.Commands.Models;
     using MediatR;
@@ -32,8 +33,8 @@
                 var aggregate =
                     new LedgerAccount(request.LedgerAccountId.Value, request.CommonName, request.AccountNumber);
 
-                await session.AddAsync(aggregate);
-                await session.CommitAsync();
+                await session.Add(aggregate);
+                await session.Commit();
             }
         }
 
