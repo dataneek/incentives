@@ -6,8 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\CostCode.cs" />
+    <Compile Remove="Models\Member.cs" />
+    <Compile Remove="Models\MemberType.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="CqrsLite" Version="0.25.0" />
     <PackageReference Include="FluentValidation" Version="8.0.100" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="8.0.100" />
     <PackageReference Include="MediatR" Version="5.1.0" />
@@ -30,7 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\" />
+    <Folder Include="Commands\Features\" />
+    <Folder Include="Models\" />
+    <Folder Include="Queries\Features\" />
   </ItemGroup>
 
 </Project>
