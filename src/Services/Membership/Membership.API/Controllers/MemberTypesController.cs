@@ -19,7 +19,7 @@
         }
 
 
-        [HttpGet, Route("/page")]
+        [HttpGet, Route("page")]
         public async Task<IActionResult> Get(int pageNumber, int itemCountPerPage)
         {
             var result =
