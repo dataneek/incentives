@@ -1,4 +1,4 @@
-﻿namespace Incentives.Services.Incentive.API.Models
+﻿namespace Incentives.Services.Incentive.API.Commands.Models
 {
     using System;
 
