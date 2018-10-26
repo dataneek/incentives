@@ -2,7 +2,7 @@
 {
     using AutoMapper;
     using FluentValidation.AspNetCore;
-    using Incentives.Services.Incentive.API.Models;
+    using Incentives.Services.Incentive.API.Queries;
     using MediatR;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -34,7 +34,7 @@
                     t.RegisterValidatorsFromAssemblyContaining<Startup>();
                 });
 
-            services.AddDbContext<AppDbContext>(options =>
+            services.AddDbContext<DefaultDbContext>(options =>
                 options.UseInMemoryDatabase("app_incentive"), ServiceLifetime.Singleton);
             //options.UseSqlServer(Configuration.GetConnectionString("AppDbContext")));
 
